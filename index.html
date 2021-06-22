@@ -16,8 +16,185 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<section>
+						<h2>JWT (Json Web Token)</h2>
+					</section>
+				</section>
+				<section>	
+					<section data-auto-animate>
+						<h2>Information security:</h2>
+					</section>
+					<section data-auto-animate>
+						<h2>Information security:</h2>
+						<h3>identification</h3>
+					</section>
+					<section data-auto-animate>
+						<h2>Information security:</h2>
+						<h3>identification</h3>
+						<h3>authentication</h3>
+					</section>	
+					<section data-auto-animate>
+						<h2>Information security:</h2>
+						<h3>identification</h3>
+						<h3>authentication</h3>
+						<h3>authorization</h3>
+					</section>
+				</section>
+				<section>
+					<section data-auto-animate>
+						<h5 style="color:#10B981">Identification:</h5>
+					</section>
+					<section data-auto-animate>
+						<h5 style="color:#10B981">Identification:</h5>
+						<ul>
+							<li>login</li>
+							<li>email</li>
+							<li>password</li>
+						</ul>
+					</section>
+					<section data-auto-animate>
+						<h5 style="color:#10B981">Identification:</h5>
+						<p>hash procedure</p>
+						<p>usualy use a library for hashing</p>
+						<p>hashed data is stored on the server</p>
+					</section>
+				</section>
+				<section>
+					<section data-auto-animate>
+						<h5 style="color:#10B981">Authentication:</h5>
+					</section>
+					<section data-auto-animate>
+						<h5 style="color:#10B981">Authentication:</h5>
+						<p>comparing entered data with data saved on server</p>
+					</section>
+				</section>
+				<section>
+					<section data-auto-animate>
+						<h5 style="color:#10B981">Authorization:</h5>
+					</section>
+					<section data-auto-animate>
+						<h5 style="color:#10B981">Authorization:</h5>
+						<p>in case of successful authentication user get access to his account and gets token into cookies or local storage</p>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h3>JWT consists of 3 parts:</h3>
+						<p style="color:red">header.<span style="color:#10B981">payload.</span><span style="color: #EC4899">signature</span></p>
+						
+					</section>
+					<section data-auto-animate>
+						<pre data-id="code-animation"><code data-trim data-line-numbers>
+							header = { "alg": "HS256", "typ": "JWT"}
+						</code></pre>
+					  </section>
+					  <section data-auto-animate>
+						<pre data-id="code-animation"><code data-trim data-line-numbers>
+							header = { "alg": "HS256", "typ": "JWT"}
+							payload = {
+								"sub": "12345",
+								"name": "John Gold",
+								"admin": true
+							  }
+						</code></pre>
+					  </section>
+					  <section data-auto-animate>
+						<pre data-id="code-animation"><code data-trim data-line-numbers>
+							header = { "alg": "HS256", "typ": "JWT"}
+							payload = {
+								"sub": "12345",
+								"name": "John Gold",
+								"admin": true
+							  }
+
+							/*verify signature*/
+							const SECRET_KEY = 'cAtwa1kkEy'
+							const unsignedToken = base64urlEncode(header) + '.' + base64urlEncode(payload)
+							const signature = HMAC-SHA256(unsignedToken, SECRET_KEY)
+						</code></pre>
+					  </section>
+					
+					<section data-auto-animate>
+						<h5>after encoding:</h5>
+						<ul>
+							<li>
+								<p>header</p>
+								<p style="color:red">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9</p>
+							</li>
+						</ul>
+					</section>
+					<section data-auto-animate>
+						<h5>after encoding:</h5>
+						<ul>
+							<li>
+								<p>header</p>
+								<p style="color:red">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9</p>
+							</li>
+							<li>
+								<p>payload</p>
+								<p style="color:#10B981">eyJ1c2VySWQiOiJiMDhmODZhZi0zNWRhLTQ4ZjItOGZhYi1jZWYzOTA0NjYwYmQifQ</p>
+							</li>
+								<!-- <li>// signature -xN_h82PHVTCMA9vdoHrcZxH-x5mb11y1537t3rGzcM</li> -->
+						</ul>
+					</section>
+					<section data-auto-animate>
+						<h5>after encoding:</h5>
+						<ul>
+							<li>
+								<p>header</p>
+								<p style="color:red">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9</p>
+							</li>
+							<li>
+								<p>payload</p>
+								<p style="color:#10B981">eyJ1c2VySWQiOiJiMDhmODZhZi0zNWRhLTQ4ZjItOGZhYi1jZWYzOTA0NjYwYmQifQ</p>
+							</li>
+							<li>
+								<p>signature</p>
+								<p style="color: #EC4899">-xN_h82PHVTCMA9vdoHrcZxH-x5mb11y1537t3rGzcM</p>
+								</li>
+						</ul>
+					</section>
+					<section data-auto-animate>
+						<p>for getting JWT</p>
+						<h5>Merge all parts:</h5>
+						<p style="color:red">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.<span style="color:#10B981">eyJ1c2VySWQiOiJi<br>MDhmODZhZi0zNWRhLTQ4ZjItOGZhYi1jZWYzOTA0NjYwYmQifQ.</span>
+							<span style="color: #EC4899">-xN_h82PHVTCMA9vdoHrcZxH-x5mb11y1537t3rGzcM</span></p>
+					</section>
+				</section>
+				<section>
+					<section data-auto-animate>
+						<h5>How does it work</h5>
+					</section>
+					<section data-auto-animate>
+						<ul>
+							<li>User passes through authentication successfully</li>
+							<li>Server looks in db what is user's role(rights)</li>
+							<li>Server generates a token with a pointed role(rights) for the user</li>
+							<li>User enters the site using this token</li>
+							<li>Server checks user's role(rights) pointed in token and approves or rejects user's rights to do definite activities</li>
+						</ul>
+					</section>
+					<section data-auto-animate>
+						<img src="./examples/assets/chema.png" alt="schema">
+					</section>
+				</section>
+				<section>Used sources: 
+					<ul>
+						<li>https://gist.github.com/zmts/802dc9c3510d79fd40f9dc38a12bccfc</li>
+						<li>https://habr.com/ru/post/340146/</li>
+						<li>https://ru.wikipedia.org/wiki/JSON_Web_Token</li>
+						<li>https://jwt.io</li>
+					</ul>
+				</section>	
+				<section>
+					<section  data-auto-animate>
+						link to presentation:<br>https://www.youtube.com/watch?v=ozc2lOP_zG8
+					</section>
+					<section  data-auto-animate>
+						<h5>Thank you for your attention</h5>
+					</section>
+				</section>
 			</div>
 		</div>
 
